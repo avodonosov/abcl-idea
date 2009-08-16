@@ -1,0 +1,75 @@
+bout
+~~~~~
+
+This plug-in embeds Armed Bear Common Lisp into IDEA and allows extending 
+IDEA using Common Lisp, in particular interactively from SLIME.
+
+Created by Anton Vodonosov, avodonosov@yandex.ru. I would be glad to hear 
+any feedback.
+
+Plug-in usage
+~~~~~~~~~~~~
+
+Command "ABCL Start" from the Tools menu starts ABCL compiler, attaches its 
+input/output streams to "ABCL Console" tool window, and runs lisp/start.lisp
+file.
+
+Default content of this file is loading yanking.lisp, and then starting SLIME.
+
+yanking.lisp is a demonstration of how to extend IDEA in Common Lisp. 
+It implements yank and yank-pop commands similar to Emacs.
+
+As for starting SLIME, you certainly need to edit start.lisp to specify
+correct path to your slime/swank-loader.lisp file.
+
+The plug-in is bundled with ABCL port of Rich Hickey's jfli, which makes 
+java interaction quite simple. See jfli manual here: http://jfli.sourceforge.net/,
+and also yanking.lisp and examples in jfli-abcl folder.
+
+During the plug-in startup variable ABCLIDEA:*LISP-DIR* is initialized to 
+a string representing full path to the "lisp" directory. You may load
+lisp files from that directory like this:
+
+   (load (concatenate 'string abclidea:*lisp-dir* "myfile.lisp"))
+
+Check also fun.lisp, which contains Hello World -like examples
+of manipulating IDEA from SLIME.
+
+Note for developers who wish to extend the ABCL plug-in
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Explains how the plug-in knows where to locate .lisp files.
+
+Pre-bundled .lisp files (like start.lisp, yanking.lisp) are located in the
+src/abclidea/lisp directory of the plug-in source tree.
+
+There are two cases:
+
+- During the plug-in development, when you start Run/Debug configuration from IDEA.
+  It is convenient to have IDEA copying the .lisp file to plug-in sandbox together
+  with the plug-in, so that they are immediately available for testing.
+
+  For this purpose resource pattern "*.lisp" is added to compiler settings
+  in the IDEA project. In result .lisp files are placed to 
+  classes/abclidea/lisp directory of the plug-in.
+
+- When the plug-in is deployed using Prepare Plug-in Module for Deployment 
+  command from the Build menu, plug-in classes are packaged into 
+  lib/abcl-idea.jar file.  It is inconvenient to have lisp files in 
+  .jar, because user is expected to edit them.
+
+  Therefore you must extract lisp directory from the lib/abcl-idea.jar!/abclidea 
+  and place it beside the "lib" directory of the plug-in distribution. I.e. in
+  the IDEA "plugins" folder you will have
+    abcl-idea/
+        lib/
+            abcl-idea.jar
+            abcl.jar
+            asm-1.5.3.jar
+        lisp/
+            start.lisp
+            yanking.lisp
+            ...                
+
+These two situations are distinguished by checking whether plug-in classes
+are in .jar or not. See AbclIdea.getStartLispFile method.

@@ -1,0 +1,18 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin>
+  <name>ABCL plugin</name>
+  <description>Embeds Armed Bear Common Lisp into IDEA and allows extending IDEA using Common Lisp, in particular interactively from SLIME.</description>
+  <version>1.0</version>
+  <vendor>YourCompany</vendor>
+  <idea-version since-build="3000"/>
+    <application-components>
+        <component>
+            <implementation-class>abclidea.AbclIdea</implementation-class>
+        </component>
+    </application-components>
+    <actions>
+        <action id="Start" class="abclidea.StartAction" text="ABCL Start" description="executes start.lisp file ">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
