@@ -8,7 +8,7 @@ Created by Anton Vodonosov, avodonosov()yandex.ru. I would be glad to hear
 any feedback.
 
 Plug-in usage
-~~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 Command "ABCL Start" from the Tools menu starts ABCL compiler, attaches its 
 input/output streams to "ABCL Console" tool window, and runs lisp/start.lisp
@@ -37,7 +37,7 @@ Check also fun.lisp, which contains Hello World -like examples
 of manipulating IDEA from SLIME.
 
 Note for developers who wish to extend the ABCL plug-in
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Explains how the plug-in knows where to locate .lisp files.
 
