@@ -1,10 +1,10 @@
-bout
+About
 ~~~~~
 
 This plug-in embeds Armed Bear Common Lisp into IDEA and allows extending 
 IDEA using Common Lisp, in particular interactively from SLIME.
 
-Created by Anton Vodonosov, avodonosov@yandex.ru. I would be glad to hear 
+Created by Anton Vodonosov, avodonosov()yandex.ru. I would be glad to hear 
 any feedback.
 
 Plug-in usage
@@ -20,7 +20,8 @@ yanking.lisp is a demonstration of how to extend IDEA in Common Lisp.
 It implements yank and yank-pop commands similar to Emacs.
 
 As for starting SLIME, you certainly need to edit start.lisp to specify
-correct path to your slime/swank-loader.lisp file.
+correct path to your slime/swank-loader.lisp file (or just comment out
+SLIME startup if you don't need it).
 
 The plug-in is bundled with ABCL port of Rich Hickey's jfli, which makes 
 java interaction quite simple. See jfli manual here: http://jfli.sourceforge.net/,
