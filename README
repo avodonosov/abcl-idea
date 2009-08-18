@@ -14,7 +14,7 @@ Command "ABCL Start" from the Tools menu starts ABCL compiler, attaches its
 input/output streams to "ABCL Console" tool window, and runs lisp/start.lisp
 file.
 
-Default content of this file is loading yanking.lisp, and then starting SLIME.
+Default content of start.lisp is loading yanking.lisp, and then starting SLIME.
 
 yanking.lisp is a demonstration of how to extend IDEA in Common Lisp. 
 It implements yank and yank-pop commands similar to Emacs.
@@ -47,14 +47,14 @@ src/abclidea/lisp directory of the plug-in source tree.
 There are two cases:
 
 - During the plug-in development, when you start Run/Debug configuration from IDEA.
-  It is convenient to have IDEA copying the .lisp file to plug-in sandbox together
+  It is convenient to have IDEA copying the .lisp files to plug-in sandbox together
   with the plug-in, so that they are immediately available for testing.
 
   For this purpose resource pattern "*.lisp" is added to compiler settings
   in the IDEA project. In result .lisp files are placed to 
   classes/abclidea/lisp directory of the plug-in.
 
-- When the plug-in is deployed using Prepare Plug-in Module for Deployment 
+- When the plug-in is deployed using "Prepare Plug-in Module for Deployment"
   command from the Build menu, plug-in classes are packaged into 
   lib/abcl-idea.jar file.  It is inconvenient to have lisp files in 
   .jar, because user is expected to edit them.
