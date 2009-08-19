@@ -1,8 +1,8 @@
 (defpackage :my (:use :cl))
 (in-package :my)
 
-;; This file is a part of ABCL, but it is excluded from ABCL build, because
-;; it requires asm.jar to be present in classpath during ABCL build.
+;; runtime-class.lisp is a part of ABCL, but it is excluded from ABCL build,
+;; because it requires asm.jar to be present in classpath during the build.
 ;;
 ;; The functionality it provides is necessary for dynamic creation of
 ;; new java classes from Lisp (in particular for the
@@ -16,8 +16,7 @@
 
 ;; "Import" java classes we use.
 ;;
-;; You may produce DEF-JAVA-CLASS forms for all the idea
-;; API classes automatically:
+;; You may produce DEF-JAVA-CLASS forms for all the IDEA API classes automatically:
 ;;
 ;; (jfli:dump-wrapper-defs-to-file (concatenate 'string abclidea:*lisp-dir* "idea-api.lisp")
 ;;                                 (jfli:get-jar-classnames "path/to/idea/openapi.jar"
@@ -139,9 +138,18 @@
                             (region-end region)
                             replacement-text)))
 
-(defvar *yank-region* nil)
-(defvar *yank-index* 0)
-(defvar *yank-undo-id* 0)
+(defvar *yank-index* 0
+    "Index of clipboard item that will be pasted by the next yank or
+ yank-pop operation \(similar to kill-ring-yank-pointer in Emacs\).")
+
+(defvar *yank-region* nil
+    "Region of text that was inserted by previous yank or yank-pop command,
+and that must be replaced by next yank-pop.")
+
+(defvar *yank-undo-id* 0
+    "Yank following by a sequence of yank-pop must be considered as a
+single action by undo mechanism. This variable is unique identifier
+of such an compound action.")
 
 (defun get-yank-text (&optional (index 0))
   (let ((all-contents (copypastemanager.getallcontents (copypastemanager.getinstance)))
@@ -214,7 +222,7 @@
  ;; methods
  ( 
   ("actionPerformed" :void :public (action-event) 
-                     ;; It's usefull setup restart before
+                     ;; It's usefull to setup a restart before
                      ;; calling FUNC.
                      ;;
                      ;; It helps when slime is connected to
@@ -226,23 +234,25 @@
                      ;; idea UI event dispatching thread,
                      ;; no slime restarts are set
                      ;; and our restart is the only
-                     ;; way to leave slime debugger.
+                     ;; way to leave SLIME debugger.
                      (restart-case
                          (handler-case
                              (funcall (myaction.func this) action-event)
                            (action-is-not-applicable ()
                              ;; NOTE: it is not guaranteed
-                             ;; that execution gets here
-                             ;; even if your code signals
+                             ;; that execution will be passed to this
+                             ;; handler, even if your code signals
                              ;; ACTION-IS-NOT-APPLICABLE.
                              ;;
-                             ;; The problem is that ABCL impements
+                             ;; It's so because ABCL impements
                              ;; non local exits using java exceptions
                              ;; (org.armedbear.lisp.Go); if somewhere
                              ;; in the call stack below our HANDLER-CASE
                              ;; and above the SIGNAL there is a
+                             ;;
                              ;;    catch (Throwable)
-                             ;; ABCL's Go exception will be catched. 
+                             ;;
+                             ;; then ABCL's Go exception will be catched. 
                              ;;
                              ;; catch (Throwable) is in partiular
                              ;; used by IDEA methods that accept Runnable
