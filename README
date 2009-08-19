@@ -10,9 +10,12 @@ any feedback.
 Plug-in usage
 ~~~~~~~~~~~~~
 
-Command "ABCL Start" from the Tools menu starts ABCL compiler, attaches its 
-input/output streams to "ABCL Console" tool window, and runs lisp/start.lisp
-file.
+After you unpacked abcl-idea.zip into your IDEA "plugins" directory
+and restarted IDEA, you will have new command "ABCL Start" 
+in the Tools menu.
+
+This command starts ABCL compiler, attaches its input/output streams 
+to "ABCL Console" tool window, and runs lisp/start.lisp file.
 
 Default content of start.lisp is loading yanking.lisp, and then starting SLIME.
 
