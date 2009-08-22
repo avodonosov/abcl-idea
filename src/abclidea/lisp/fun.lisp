@@ -36,26 +36,6 @@
 ;;                               "Hello, IDEA"
 ;;                               (messages.getInformationIcon)))
 
-;; Expand or collapse all the folding regions in editor
-
-(def-java-class "com.intellij.openapi.editor.FoldingModel")
-(def-java-class "com.intellij.openapi.editor.FoldRegion")
-
-(defun set-all-foldings-expanded (expanded-p)
-  (let* ((fold-model (editor.getfoldingmodel (cur-editor-safe (cur-prj-safe))))
-         (fold-regions  (foldingmodel.getallfoldregions fold-model))
-         (runnable (runnable
-                     (dotimes (i (jlength fold-regions))
-                       (foldregion.setexpanded (jref fold-regions i)
-                                               expanded-p)))))
-    (foldingmodel.runbatchfoldingoperation fold-model
-                                           runnable)))
-
-;; Try it:
-;;
-;; (invoke-and-wait
-;;   (set-all-foldings-expanded t))
-
 ;; Show or hide line number in the editor
 
 (def-java-class "com.intellij.openapi.editor.EditorSettings")
@@ -77,4 +57,36 @@
 ;; (invoke-and-wait 
 ;;   (toggle-line-nums))
 
+;; Expand or collapse all the folding regions in editor
 
+(def-java-class "com.intellij.openapi.editor.FoldingModel")
+(def-java-class "com.intellij.openapi.editor.FoldRegion")
+
+(defun set-all-foldings-expanded (expanded-p)
+  (let* ((fold-model (editor.getfoldingmodel (cur-editor-safe (cur-prj-safe))))
+         (fold-regions  (foldingmodel.getallfoldregions fold-model))
+         (runnable (runnable
+                     (dotimes (i (jlength fold-regions))
+                       (foldregion.setexpanded (jref fold-regions i)
+                                               expanded-p)))))
+    (foldingmodel.runbatchfoldingoperation fold-model
+                                           runnable)))
+
+(defun toggle-foldings ()
+  (let* ((fold-model (editor.getfoldingmodel (cur-editor-safe (cur-prj-safe))))
+         (fold-regions (foldingmodel.getallfoldregions fold-model))
+         (runnable (runnable
+                     (dotimes (i (jlength fold-regions))
+                       (let* ((region (jref fold-regions i))
+                              (expanded-p (foldregion.isexpanded region)))
+                         (foldregion.setexpanded region
+                                                 (not expanded-p)))))))
+    (foldingmodel.runbatchfoldingoperation fold-model
+                                           runnable)))
+;; Try it:
+;;
+;; (invoke-and-wait
+;;    (set-all-foldings-expanded t))
+;;
+;; (invoke-and-wait 
+;;    (toggle-foldings))
