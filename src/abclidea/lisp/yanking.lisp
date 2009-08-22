@@ -273,7 +273,7 @@ of such an compound action.")
   ("func" "java.lang.Object" :public))
  )
 
-(setf act-yank (myaction.new "yankAction" nil))
+(setf act-yank (myaction.new "yank" nil))
 (setf (myaction.func act-yank)
       #'(lambda (action-event) 
           (declare (ignore action-event))
@@ -285,10 +285,10 @@ of such an compound action.")
 
 (setf edit-menu (actionmanager.getaction (actionmanager.getinstance) "EditMenu"))
 
-(actionmanager.registeraction (actionmanager.getinstance) "yankAction" act-yank)
+(actionmanager.registeraction (actionmanager.getinstance) "yank" act-yank)
 (defaultactiongroup.add edit-menu act-yank)
 
-;;(actionmanager.unregisteraction (actionmanager.getinstance) "yankAction")
+;;(actionmanager.unregisteraction (actionmanager.getinstance) "yank")
 ;;(defaultactiongroup.remove edit-menu act-yank)
 
 ;; assign keyboard shortcut Ctrl-Y to our action
@@ -322,7 +322,7 @@ Example \(REMOVE-SHORTCUT \"control Y\"\)"
 ;; this is to make it actually fired when user presses the key combination
 (remove-shortcut "control Y")
 (keymap.addshortcut (keymapmanager.getactivekeymap (keymapmanager.getinstance))
-                    "yankAction"
+                    "yank"
                     (action-shortcut act-yank))
 
 ;; yank-pop is allowed only if previous command was yank or yank-pop.
