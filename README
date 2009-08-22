@@ -1,8 +1,8 @@
 About
 ~~~~~
 
-This plug-in embeds Armed Bear Common Lisp into IDEA and allows extending 
-IDEA using Common Lisp, in particular interactively from SLIME.
+This plug-in embeds Armed Bear Common Lisp into IntelliJ IDEA and allows 
+extending IDEA using Common Lisp, in particular interactively from SLIME.
 
 Created by Anton Vodonosov, avodonosov()yandex.ru. I would be glad to hear 
 any feedback.
